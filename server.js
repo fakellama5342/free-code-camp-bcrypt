@@ -1,56 +1,34 @@
 'use strict';
-const express     = require('express');
-const bodyParser  = require('body-parser');
-const fccTesting  = require('./freeCodeCamp/fcctesting.js');
-const app         = express();
-const bcryp       = require('bcrypt');
-fccTesting(app);
+const express = require('express');
+const bodyParser = require('body-parser');
+const fccTesting = require('./freeCodeCamp/fcctesting.js');
+const app = express();
+const bcrypt = require('bcrypt'); 
+
 const saltRounds = 12;
-const myPlaintextPassword = 'sUperpassw0rd!';
+const myPlaintextPassword = 'superpassword!';
 const someOtherPlaintextPassword = 'pass123';
 
 
-//START_ASYNC -do not remove notes, place code between correct pair of notes.
 
-
-
-//END_ASYNC
-
-//START_SYNC
-
-
-
-//END_SYNC
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log("Listening on port:", PORT)
+app.get('/_api/package.json', function(req, res) {
+  res.sendFile(__dirname + '/package.json');
 });
+
+
+
+
+fccTesting(app); // For FCC testing purposes
+
+app.use('/public', express.static(process.cwd() + '/public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.route('/').get((req, res) => {
+  res.sendFile(process.cwd() + '/views/index.html');
+});
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log('Listening on port: ' + port);
+}); 
